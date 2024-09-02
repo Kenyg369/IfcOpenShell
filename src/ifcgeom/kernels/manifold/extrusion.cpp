@@ -1,12 +1,15 @@
-#include "OpenCascadeKernel.h"
+#include "ManifoldKernel.h"
 
 #include <BRepPrimAPI_MakePrism.hxx>
+#include <iostream>
+#include <stdexcept>
 
 using namespace ifcopenshell::geometry;
 using namespace ifcopenshell::geometry::kernels;
 using namespace IfcGeom;
 
-bool OpenCascadeKernel::convert(const taxonomy::extrusion::ptr extrusion, TopoDS_Shape& shape) {
+bool ManifoldKernel::convert(const taxonomy::extrusion::ptr extrusion, TopoDS_Shape& shape) {
+	throw std::runtime_error("Dummy exception!"); 
 	const double& height = extrusion->depth;
 
 	if (height < settings_.get<settings::Precision>().get()) {
@@ -71,9 +74,9 @@ bool OpenCascadeKernel::convert(const taxonomy::extrusion::ptr extrusion, TopoDS
 	return !shape.IsNull();
 }
 
-bool OpenCascadeKernel::convert_impl(const taxonomy::extrusion::ptr extrusion, IfcGeom::ConversionResults& results) {
-    std::wcout << "dummy";
-    throw std::runtime_error("Dummy exception!"); 
+bool ManifoldKernel::convert_impl(const taxonomy::extrusion::ptr extrusion, IfcGeom::ConversionResults& results) {
+ 	//std::wcout << "dummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummy";
+	throw std::runtime_error("Exception!"); 
 	//TopoDS_Shape shape;
 	//if (!convert(extrusion, shape)) {
 	//	return false;
@@ -82,7 +85,7 @@ bool OpenCascadeKernel::convert_impl(const taxonomy::extrusion::ptr extrusion, I
 	//results.emplace_back(ConversionResult(
 	//	extrusion->instance->data().id(),
 	//	extrusion->matrix,
-	//	new OpenCascadeShape(shape),
+	//	new ManifoldShape(shape),
 	//	extrusion->surface_style
 	//));
 	return true;

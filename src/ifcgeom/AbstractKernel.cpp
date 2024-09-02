@@ -9,6 +9,13 @@
 #undef Handle
 #endif
 
+#ifdef IFOPSH_WITH_MANIFOLD
+#include "../ifcgeom/kernels/manifold/ManifoldKernel.h"
+#undef Handle
+#endif
+//#include "../ifcgeom/kernels/manifold/ManifoldKernel.h"
+
+
 #ifdef IFOPSH_WITH_CGAL
 #include "../ifcgeom/kernels/cgal/CgalKernel.h"
 #undef CGAL_KERNEL_H
@@ -49,6 +56,13 @@ bool is_valid_for_kernel(const ifcopenshell::geometry::kernels::AbstractKernel* 
 		return dynamic_cast<ifcopenshell::geometry::OpenCascadeShape*>(shp.Shape().get()) != nullptr;
 	}
 #endif
+
+#ifdef IFOPSH_WITH_MANIFOLD
+    if (k->geometry_library() == "manifold") {
+        return dynamic_cast<ifcopenshell::geometry::ManifoldShape*>(shp.Shape().get()) != nullptr;
+    }
+#endif
+
 #ifdef IFOPSH_WITH_CGAL
 	if (k->geometry_library() == "cgal-simple") {
 		return dynamic_cast<ifcopenshell::geometry::SimpleCgalShape*>(shp.Shape().get()) != nullptr;
@@ -152,6 +166,12 @@ ifcopenshell::geometry::kernels::AbstractKernel* ifcopenshell::geometry::kernels
 	}
 #endif
 
+#ifdef IFOPSH_WITH_MANIFOLD
+    if (geometry_library_lower == "manifold") {
+        return new IfcGeom::ManifoldKernel(conv_settings);
+    }
+#endif
+
 #ifdef IFOPSH_WITH_CGAL
 	if (geometry_library_lower == "cgal") {
 		return new CgalKernel(conv_settings);
@@ -177,6 +197,13 @@ ifcopenshell::geometry::kernels::AbstractKernel* ifcopenshell::geometry::kernels
 				kernels.push_back(new IfcGeom::OpenCascadeKernel(conv_settings));
 				geometry_library_lower = geometry_library_lower.substr(strlen("opencascade"));
 			}
+#endif
+
+#ifdef IFOPSH_WITH_MANIFOLD
+            if (geometry_library_lower.find("manifold", 0) == 0) {
+                kernels.push_back(new IfcGeom::ManifoldKernel(conv_settings));
+                geometry_library_lower = geometry_library_lower.substr(strlen("manifold"));
+            }
 #endif
 
 #ifdef IFOPSH_WITH_CGAL
