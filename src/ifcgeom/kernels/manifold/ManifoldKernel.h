@@ -45,7 +45,7 @@
 //#include <BRep_Builder.hxx>
 //#include <BRepBuilderAPI_MakeEdge.hxx>
 
-//#include <manifold\manifold.h>
+#include <manifold\manifold.h>
 #include "../../../ifcgeom/AbstractKernel.h" 
 
 #include "../../../ifcgeom/IfcGeomElement.h" 
@@ -81,8 +81,8 @@ private:
 	*/
 
 	double precision_;
-	//manifold::Polygons polygons2;
-	//manifold::SimplePolygon loop3;
+	manifold::Polygons polygons2;
+	manifold::SimplePolygon loop3;
 
 public:
     ManifoldKernel(const ifcopenshell::geometry::Settings& settings)

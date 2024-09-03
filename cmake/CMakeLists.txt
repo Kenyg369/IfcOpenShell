@@ -221,10 +221,10 @@ endif()
 
 #if(WITH_MANIFOLD)
 #endif()
-
 add_definitions(-DIFOPSH_WITH_MANIFOLD)
 set(SWIG_DEFINES ${SWIG_DEFINES} -DIFOPSH_WITH_MANIFOLD)
 list(APPEND GEOMETRY_KERNELS manifold)
+
 
 if(GLTF_SUPPORT OR CITYJSON_SUPPORT)
     UNIFY_ENVVARS_AND_CACHE(JSON_INCLUDE_DIR)
@@ -1271,5 +1271,17 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "science")
 set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}${EXTRA_VERSION}")
 set(CPACK_DEBIAN_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
 # set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/cmake/debian/postinst")
+
+target_include_directories(geometry_kernel_manifold PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/include)
+target_include_directories(IfcGeom PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/include)
+target_include_directories(IfcConvert PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/include)
+
+target_link_directories(geometry_kernel_manifold PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/lib)
+target_link_directories(IfcGeom PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/lib)
+target_link_directories(IfcConvert PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/lib)
+
+target_link_libraries(geometry_kernel_manifold manifold.lib)
+target_link_libraries(IfcGeom manifold.lib)
+target_link_libraries(IfcConvert manifold.lib)
 
 include(CPack)

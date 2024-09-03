@@ -1,5 +1,6 @@
 # Dependency and build folders created by the build scripts
 /_deps/
+/_build-*/
 /_build-vs*-x*/
 /_deps-vs*-x*-installed/
 /_installed-vs*-x*/
@@ -101,3 +102,6 @@ src/ifcopenshell-python/ifcopenshell/ifcopenshell_wrapper.py
 
 # Brickschema
 src/blenderbim/blenderbim/bim/schema/Brick.ttl
+/_build-vs2022-Win32/IfcOpenShell.sln
+/_build-vs2022-Win32/IfcOpenShell.sln
+/_deps-vs2022-Win32-installed
