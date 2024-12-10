@@ -137,7 +137,6 @@
 // #include "../../../ifcparse/IfcFile.h"
 // 
 
-#include "ManifoldKernel.h"
 
 // #include "IfcGeomTree.h"
 
@@ -193,6 +192,8 @@
 // }
 // 
 
+#include "ManifoldKernel.h"
+
 namespace {
 	struct opening_sorter {
 		bool operator()(const std::pair<double, TopoDS_Shape>& a, const std::pair<double, TopoDS_Shape>& b) const {
@@ -201,7 +202,49 @@ namespace {
 	};
 }
 
-using namespace ifcopenshell::geometry;
+//using namespace ifcopenshell::geometry;
+//using namespace IfcGeom;
+
+
+IfcGeom::ManifoldKernel::ManifoldKernel(const ifcopenshell::geometry::Settings& settings)
+    : AbstractKernel("manifold", settings),
+      precision_(settings.get<ifcopenshell::geometry::settings::Precision>().get()) {
+    manifold::Polygons polygons;
+    // simple square coorcinates:
+    // not a nested vector!!!
+    glm::vec2 lb = {1.f, 0.f};
+    glm::vec2 lt = glm::vec2(1.f, 1.f);
+    glm::vec2 rt = {2.f, 1.f};
+    glm::vec2 rb = glm::vec2(2.f, 0.f);
+
+    manifold::SimplePolygon loop1;
+    loop1.push_back(lb);
+    loop1.push_back(rb);
+    loop1.push_back(rt);
+    loop1.push_back(lt);
+
+    manifold::SimplePolygon loop2;
+    glm::vec2 lb2 = {1.5f, 0.f};
+    glm::vec2 lt2 = glm::vec2(1.5f, 1.f);
+    glm::vec2 rt2 = {2.5f, 1.f};
+    glm::vec2 rb2 = glm::vec2(2.5f, 0.f);
+    loop2.push_back(lb2);
+    loop2.push_back(rb2);
+    loop2.push_back(rt2);
+    loop2.push_back(lt2);
+
+    //polygons.push_back(loop1);
+    polygons.push_back(loop2);
+    manifold::Manifold cube = manifold::Manifold::Extrude(polygons, 1, 0, 0);
+
+    std::wcout << "# of Tranigle: " << cube.NumTri() << std::endl;              // Expecting: 12
+    std::wcout << "# of Edge: " << cube.NumEdge() << std::endl;                 // Expecting: 18
+    std::wcout << "# of Vertices: " << cube.NumVert() << std::endl;             // Expecting: 8
+    std::wcout << "Volume: " << cube.GetProperties().volume << std::endl;       // Expecting: 1 (volume)
+    std::wcout << "Surface: " << cube.GetProperties().surfaceArea << std::endl; // Expecting: 8 (surface)
+    std::wcout << "--------------------" << std::endl;                          // Expecting: 8 (surface)
+}
+
 // -------------------------------(ken) commented out ok?------------------------------
 //bool IfcGeom::ManifoldKernel::convert_openings(const IfcUtil::IfcBaseEntity* entity, const std::vector<std::pair<taxonomy::ptr, ifcopenshell::geometry::taxonomy::matrix4>>& openings,
 //	const IfcGeom::ConversionResults& entity_shapes, const ifcopenshell::geometry::taxonomy::matrix4& entity_trsf, IfcGeom::ConversionResults& cut_shapes) {

@@ -1272,16 +1272,27 @@ set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE
 set(CPACK_DEBIAN_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
 # set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/cmake/debian/postinst")
 
-target_include_directories(geometry_kernel_manifold PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/include)
-target_include_directories(IfcGeom PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/include)
-target_include_directories(IfcConvert PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/include)
+target_include_directories(geometry_kernel_manifold PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/build/install/include)
+target_include_directories(IfcGeom PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/build/install/include)
+target_include_directories(IfcConvert PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/build/install/include)
 
-target_link_directories(geometry_kernel_manifold PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/lib)
-target_link_directories(IfcGeom PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/lib)
-target_link_directories(IfcConvert PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/lib)
+target_link_directories(geometry_kernel_manifold PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/build/install/lib)
+target_link_directories(IfcGeom PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/build/install/lib)
+target_link_directories(IfcConvert PRIVATE E:/Man/IfcOpenshell/_deps/manifold-2.5.1/build/install/lib)
 
-target_link_libraries(geometry_kernel_manifold manifold.lib)
-target_link_libraries(IfcGeom manifold.lib)
-target_link_libraries(IfcConvert manifold.lib)
+# Specify the directory containing the .lib files
+set(LIB_DIR "E:/Man/IfcOpenshell/_deps/manifold-2.5.1/build/install/lib")
+
+# Find all .lib files in the specified directory
+file(GLOB LIB_FILES "${LIB_DIR}/*.lib")
+
+# Link the target with all the found libraries
+target_link_libraries(geometry_kernel_manifold ${LIB_FILES})
+target_link_libraries(IfcGeom ${LIB_FILES})
+target_link_libraries(IfcConvert ${LIB_FILES})
+
+#target_link_libraries(geometry_kernel_manifold manifold.lib)
+#target_link_libraries(IfcGeom manifold.lib)
+#target_link_libraries(IfcConvert manifold.lib)
 
 include(CPack)

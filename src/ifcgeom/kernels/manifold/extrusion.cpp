@@ -75,8 +75,9 @@ bool ManifoldKernel::convert(const taxonomy::extrusion::ptr extrusion, TopoDS_Sh
 }
 
 bool ManifoldKernel::convert_impl(const taxonomy::extrusion::ptr extrusion, IfcGeom::ConversionResults& results) {
- 	//std::wcout << "dummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummy";
-	throw std::runtime_error("Exception!"); 
+ 	// std::wcout << "dummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummydummy";
+	// throw std::runtime_error("Exception!"); 
+	// 
 	//TopoDS_Shape shape;
 	//if (!convert(extrusion, shape)) {
 	//	return false;
